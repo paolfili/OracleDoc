@@ -1,0 +1,44 @@
+#!/usr/bin/expect
+set password "geheimgeheim"
+spawn /bin/su - test-user -c "cat testfile"
+expect "Password:"
+send "$password\r"
+expect eof
+das passwort wird als parameter ($1) an das script übergeben (das ist auch böse :)
+
+#!/usr/bin/expect
+set password [lindex $argv 1]
+spawn /bin/su - test-user -c "cat testfile"
+expect "Password:"
+send "$password\r"
+expect eof
+
+-----------------
+
+
+#!/bin/bash
+date
+echo ' #!/usr/bin/expect
+set password [lindex $argv 1]
+spawn /bin/su - test-user -c "cat testfile"
+expect "Password:"
+send "$password\r"
+expect eof ' | /usr/bin/expect
+date
+hier noch ein kleines script fuer telnet
+
+#!/usr/bin/expect
+set user "admin"
+set password "geheim"
+spawn telnet router-ip
+expect "login:"
+send "$user\r"
+expect "Password:"
+send "$password\r"
+expect "Last"
+spawn reboot
+expect eof
+
+-------------
+
+
